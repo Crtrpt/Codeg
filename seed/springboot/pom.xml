@@ -12,7 +12,7 @@
     <artifactId>codeg</artifactId>
     <version>1.0.0</version>
     <name>Codeg</name>
-    <description>门禁管理后台api</description>
+    <description>Codeg 代码生成器</description>
 
     <properties>
         <maven.build.timestamp.format>yyyy_MM_dd</maven.build.timestamp.format>
