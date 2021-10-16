@@ -1,5 +1,43 @@
 <template>
   <div class="h-full">
+    <div class="flex flex-col px-2 mt-2">
+      <div class="px-1">
+        <input
+          placeholder="模块名称"
+          v-model="moduleDisplayName"
+          class="px-2 mx-2 border hover:border-gray-400 rounded"
+        />
+        <input
+          placeholder="模块名称"
+          v-model="moduleName"
+          class="px-2 mx-2 border hover:border-gray-400 rounded"
+        />
+        <input
+          placeholder="请求前缀"
+          v-model="urlprefix"
+          class="px-2 mx-2 border hover:border-gray-400 rounded"
+        />
+      </div>
+
+      <div class="px-1 flex">
+        <label
+          v-for="(d, i) in targetList"
+          :key="d"
+          :value="i"
+          class="flex items-center"
+        >
+          <input
+            type="checkbox"
+            v-model="d.select"
+            class="px-2 mx-2 border hover:border-gray-400 rounded"
+          />
+          <div>{{ d.name }}</div>
+        </label>
+      </div>
+      <div class="px-1 flex">
+        <CheckIcon class="h-4 pl-2" @click="generateCode()"></CheckIcon>
+      </div>
+    </div>
     <div class="flex flex-col px-2">
       <div v-for="(g, gi) in table.group" :key="g">
         <div class="py-2 flex items-center">
@@ -19,7 +57,7 @@
               ></FolderOpenIcon>
             </div>
           </div>
-          <div class="pl-2">
+          <div class="pl-2 flex items-center">
             <input
               v-model="g.name"
               class="px-2 mx-2 border hover:border-gray-400 rounded"
@@ -32,6 +70,38 @@
               v-model="g.comment"
               class="px-2 mx-2 border hover:border-gray-400 rounded"
             />
+            <div class="px-2">
+              <input
+                v-model="g.relationType"
+                type="radio"
+                :name="'relationType' + gi"
+                :value="0"
+              />主表
+            </div>
+            <div class="px-2">
+              <input
+                v-model="g.relationType"
+                type="radio"
+                :name="'relationType' + gi"
+                value="1"
+              />一对一
+            </div>
+            <div class="px-2">
+              <input
+                v-model="g.relationType"
+                type="radio"
+                :name="'relationType' + gi"
+                value="2"
+              />一对多
+            </div>
+            <div class="px-2">
+              <input
+                v-model="g.relationType"
+                type="radio"
+                :name="'relationType' + gi"
+                value="3"
+              />多对多
+            </div>
           </div>
         </div>
         <div class="pl-4 flex" v-if="g.unfold">
@@ -81,13 +151,13 @@
             <div class="px-2">
               <input v-model="c.listDisplay" type="checkbox" />列表
             </div>
-            <!-- <div class="">
+            <div class="">
               <select v-model="c.listRenderType">
                 <option v-for="(d, i) in renderType" :key="d" :value="i">
                   {{ d.name }}
                 </option>
               </select>
-            </div> -->
+            </div>
 
             <div class="flex items-center px-1">
               <input v-model="c.sortDisplay" type="checkbox" />
@@ -101,13 +171,13 @@
             <div class="">
               <input v-model="c.detailDisplay" type="checkbox" />详情
             </div>
-            <!-- <div class="px-1">
+            <div class="px-1">
               <select v-model="c.detailRenderType">
                 <option v-for="(d, i) in renderType" :key="d" :value="i">
                   {{ d.name }}
                 </option>
               </select>
-            </div> -->
+            </div>
             <div class="flex items-center px-1">
               <input v-model="c.required" type="checkbox" />
               <div>必填</div>
@@ -182,6 +252,9 @@ export default {
     CheckIcon,
   },
   methods: {
+    generateCode() {
+      console.log("正在生成请稍等");
+    },
     downColumn(i, c, g) {
       g.columns = [
         ...g.columns.slice(0, i),
@@ -208,7 +281,7 @@ export default {
       g.columns = [
         ...g.columns.slice(0, i + 1),
         {
-          name: "name",
+          name: "",
         },
         ...g.columns.slice(i + 1, g.columns.length),
       ];
@@ -223,7 +296,8 @@ export default {
       this.table.group = [
         ...this.table.group.slice(0, i + 1),
         {
-          name: "groupname",
+          name: "",
+          relationType: 0,
           columns: [],
         },
         ...this.table.group.slice(i + 1, this.table.group.length),
@@ -249,6 +323,7 @@ export default {
         ...this.table.group.slice(0, i + 1),
         {
           name: "groupname",
+          relationType: 0,
           columns: selectGroup,
         },
         ...this.table.group.slice(i + 1, this.table.group.length),
@@ -257,6 +332,9 @@ export default {
   },
   data() {
     return {
+      urlprefix: "/v1",
+      moduleName: "test",
+      moduleDisplayName: "模块显示名称",
       columnsDef: [
         {
           name: "action",
@@ -275,7 +353,15 @@ export default {
           ref: "comment",
         },
       ],
-
+      target: "",
+      targetList: [
+        {
+          name: "springboot",
+        },
+        {
+          name: "vue",
+        },
+      ],
       renderType: [
         {
           name: "none",
@@ -292,6 +378,9 @@ export default {
         {
           name: "avatar",
         },
+        {
+          name: "date",
+        },
       ],
       table: {
         group: [
@@ -300,6 +389,7 @@ export default {
             displayName: "base",
             comment: "基础信息",
             primaryTable: "主表",
+            relationType: 0,
             columns: [
               {
                 name: "id",
@@ -319,6 +409,8 @@ export default {
                 detailDisplay: true,
                 searchDisplay: true,
                 required: true,
+                listRenderType: 1,
+                detailRenderType: 1,
               },
               {
                 name: "avatar",
@@ -327,18 +419,24 @@ export default {
                 listName: "头像",
                 listRenderType: 3,
                 detailDisplay: true,
+                listRenderType: 1,
+                detailRenderType: 1,
               },
               {
                 name: "first_name",
                 listName: "first_name",
                 detailDisplay: true,
                 comment: "第一名称",
+                listRenderType: 1,
+                detailRenderType: 1,
               },
               {
                 name: "last_name",
                 listName: "last_name",
                 detailDisplay: true,
                 comment: "最后名称",
+                listRenderType: 1,
+                detailRenderType: 1,
               },
               {
                 name: "full_name",
@@ -348,6 +446,8 @@ export default {
                 detailDisplay: false,
                 databaseDisplay: true,
                 databaseSource: "first_name+last_name",
+                listRenderType: 1,
+                detailRenderType: 1,
               },
 
               {
@@ -357,26 +457,126 @@ export default {
                 listName: "手机号",
                 detailDisplay: true,
                 databaseDisplay: true,
+                listRenderType: 1,
+                detailRenderType: 1,
               },
               {
                 name: "create_at",
                 listName: "创建时间",
                 comment: "创建时间",
                 sortDisplay: true,
+                listRenderType: 5,
+                detailRenderType: 5,
               },
             ],
           },
           {
             name: "扩展信息",
             comment: "扩展信息",
-            relationType: "子表",
+            relationType: 0,
             displayName: "extra",
             columns: [
+              {
+                name: "id",
+                automaticGenerated: true,
+                primaryKey: true,
+                comment: "自增id",
+                listName: "序号",
+                listDisplay: true,
+                listRenderType: 1,
+                detailRenderType: 1,
+              },
               {
                 detailDisplay: true,
                 name: "description",
                 listName: "详细描述 ",
                 comment: "备注信息",
+              },
+            ],
+          },
+          {
+            name: "登录日志",
+            comment: "登录日志",
+            relationType: 0,
+            displayName: "login_history",
+            columns: [
+              {
+                name: "id",
+                automaticGenerated: true,
+                primaryKey: true,
+                comment: "自增id",
+                listName: "序号",
+                listDisplay: true,
+                listRenderType: 1,
+                detailRenderType: 1,
+              },
+              {
+                detailDisplay: true,
+                name: "ip",
+                listName: "ip地址 ",
+                comment: "IP地址",
+                listRenderType: 1,
+                detailRenderType: 1,
+                listDisplay: true,
+                searchDisplay: true,
+              },
+              {
+                detailDisplay: true,
+                searchDisplay: true,
+                name: "create_at",
+                listName: "登录日期 ",
+                comment: "登录日期",
+                listDisplay: true,
+                listRenderType: 5,
+                detailRenderType: 5,
+              },
+            ],
+          },
+          {
+            name: "操作日志",
+            comment: "登录日志",
+            relationType: 0,
+            displayName: "ops_history",
+            columns: [
+              {
+                name: "id",
+                automaticGenerated: true,
+                primaryKey: true,
+                comment: "自增id",
+                listName: "序号",
+                listDisplay: true,
+                listRenderType: 1,
+                detailRenderType: 1,
+              },
+              {
+                detailDisplay: true,
+                name: "ip",
+                listName: "ip地址 ",
+                comment: "IP地址",
+                listRenderType: 1,
+                detailRenderType: 1,
+                listDisplay: true,
+                searchDisplay: true,
+              },
+              {
+                detailDisplay: true,
+                name: "ops_content",
+                listName: "操作内容 ",
+                comment: "操作内容",
+                listRenderType: 1,
+                detailRenderType: 1,
+                listDisplay: true,
+                searchDisplay: true,
+              },
+              {
+                detailDisplay: true,
+                searchDisplay: true,
+                name: "create_at",
+                listName: "登录日期 ",
+                comment: "登录日期",
+                listDisplay: true,
+                listRenderType: 5,
+                detailRenderType: 5,
               },
             ],
           },
