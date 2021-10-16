@@ -1,0 +1,32 @@
+spring:
+  mvc:
+    static-path-pattern: /resources/**
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/codeg
+    username: postgres
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+  main:
+    allow-bean-definition-overriding: true
+    banner-mode: off
+  jpa:
+    database: postgresql
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+
+mybatis-plus:
+  mapper-locations: classpath*:com/dj/codeg/**/xml/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      id-type: ASSIGN_ID
+      table-underline: true
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    call-setters-on-nulls: true
