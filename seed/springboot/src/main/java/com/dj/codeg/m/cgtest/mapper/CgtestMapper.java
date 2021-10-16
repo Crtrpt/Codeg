@@ -1,4 +1,4 @@
-package com.dj.codeg.m.visitor.mapper;
+package com.dj.codeg.m.cgtest.mapper;
 
 import com.dj.codeg.system.utils.ResultDto;
 import io.swagger.annotations.Api;
@@ -12,6 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public interface VisitorMapper {
+public interface CgtestMapper {
 
 }

@@ -1,4 +1,4 @@
-package com.dj.codeg.m.visitor.controller;
+package com.dj.codeg.m.cgtest.controller;
 
 import com.dj.codeg.system.utils.ResultDto;
 import com.dj.codeg.system.Page;
@@ -9,43 +9,43 @@ import org.springframework.beans.BeanUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.dj.codeg.m.visitor.form.VisitorDto;
-import com.dj.codeg.m.visitor.form.VisitorForm;
-import com.dj.codeg.m.visitor.form.VisitorListDto;
-import com.dj.codeg.m.visitor.form.VisitorQuery;
-import com.dj.codeg.m.visitor.service.VisitorService;
+import com.dj.codeg.m.cgtest.form.CgtestDto;
+import com.dj.codeg.m.cgtest.form.CgtestForm;
+import com.dj.codeg.m.cgtest.form.CgtestListDto;
+import com.dj.codeg.m.cgtest.form.CgtestQuery;
+import com.dj.codeg.m.cgtest.service.CgtestService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Api(tags = "测试模块")
 @RestController
-@RequestMapping("/visitor")
-public class VisitorController {
+@RequestMapping("/cgtest")
+public class CgtestController {
 
     @Autowired
-    VisitorService visitorService;
+    CgtestService cgtestService;
 
     @ApiOperation(value = "测试模块列表")
     @GetMapping("/list")
-    public ResultDto<List<VisitorListDto>> index(VisitorQuery query){
-        return ResultDto.OK(visitorService.list(query));
+    public ResultDto<List<CgtestListDto>> index(CgtestQuery query){
+        return ResultDto.OK(cgtestService.list(query));
     }
 
     @ApiOperation(value = "测试模块编辑")
     @PostMapping("/edit")
-    public ResultDto<VisitorDto> edit(@RequestBody VisitorForm form){
-        var source=visitorService.save(form);
-        var target=new VisitorDto();
+    public ResultDto<CgtestDto> edit(@RequestBody CgtestForm form){
+        var source=cgtestService.save(form);
+        var target=new CgtestDto();
         BeanUtils.copyProperties(source,target);
         return ResultDto.OK(target);
     }
 
     @ApiOperation(value = "增加测试模块")
     @PostMapping("/add")
-    public ResultDto<VisitorDto> add(@RequestBody VisitorForm form){
-        var source=visitorService.create(form);
-        var target=new VisitorDto();
+    public ResultDto<CgtestDto> add(@RequestBody CgtestForm form){
+        var source=cgtestService.create(form);
+        var target=new CgtestDto();
         BeanUtils.copyProperties(source,target);
         return ResultDto.OK(target);
     }
@@ -53,6 +53,6 @@ public class VisitorController {
     @ApiOperation(value = "测试模块删除")
     @PostMapping("/delete")
     public ResultDto<Boolean> delete( @RequestParam(name="id") String id){
-        return ResultDto.OK(visitorService.delete(id));
+        return ResultDto.OK(cgtestService.delete(id));
     }
 }

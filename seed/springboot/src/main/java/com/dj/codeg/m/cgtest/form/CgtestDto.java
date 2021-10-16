@@ -1,4 +1,4 @@
-package com.dj.codeg.m.visitor.form;
+package com.dj.codeg.m.cgtest.form;
 
 import com.dj.codeg.system.utils.ResultDto;
 import io.swagger.annotations.Api;
@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@ApiModel(value="ap对象", description="visitor")
-public class VisitorDto {
+@ApiModel(value="ap对象", description="cgtest")
+public class CgtestDto {
 
     @ApiModelProperty(value = "主键id")
     String id;

@@ -2,20 +2,24 @@
 import os
 from string import Template
 
-opts = {"module_name": "visitor", "filename": "Visitor", "name": "visitor", "display_name": "测试模块",
-         "package_name": "com.dj.codeg.m","entity":"test.entity","system_package":"com.dj.codeg","request_path_prefix":"/"}
+opts = {
+    "module_name": "cgtest",
+    "filename": "Cgtest",
+    "name": "cgtest",
+    "display_name": "测试模块",
+    "package_name": "com.dj.codeg.m",
+    "entity":"test.entity",
+    "system_package":"com.dj.codeg",
+    "request_path_prefix":"/"
+}
 
 basedirs =   [ {
-    "source":"./temp/backend",
-    "target":"./src/main/java"+"/"+opts['package_name'].replace(".","/"),
+    "source":"./seed/springboot/cg",
+    "target":"./seed/springboot/src/main/java"+"/"+opts['package_name'].replace(".","/"),
 },{
-    "source":"./temp/web",
-    "target":"./web/src/m",
-},{
-    "source":"./temp/futter",
-    "target":"./app/codeg/lib/m",
+    "source":"./seed/vue/cg",
+    "target":"./seed/vue/src/m",
 }]
-
 
 def cg(basedir, distdir, param):
     for entry in os.scandir(basedir):

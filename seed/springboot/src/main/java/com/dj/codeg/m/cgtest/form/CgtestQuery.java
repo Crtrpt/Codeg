@@ -1,4 +1,4 @@
-package com.dj.codeg.m.visitor.form;
+package com.dj.codeg.m.cgtest.form;
 
 import com.dj.codeg.system.PageForm;
 import com.dj.codeg.system.utils.ResultDto;
@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@ApiModel(value="visitor查询", description="visitor查询")
-public class VisitorQuery extends PageForm {
+@ApiModel(value="cgtest查询", description="cgtest查询")
+public class CgtestQuery extends PageForm {
 
     @ApiModelProperty(value = "主键id")
     String id;
