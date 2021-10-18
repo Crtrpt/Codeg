@@ -70,37 +70,37 @@
               v-model="g.comment"
               class="px-2 mx-2 border hover:border-gray-400 rounded"
             />
+
             <div class="px-2">
-              <input
-                v-model="g.relationType"
-                type="radio"
-                :name="'relationType' + gi"
-                :value="0"
-              />主表
+              <select v-model="g.relationType">
+                <option v-for="(d, i) in relationType" :key="d" :value="i">
+                  {{ d.name }}
+                </option>
+              </select>
+            </div>
+            <div class="px-2">
+              <input v-model="g.listDisplay" type="checkbox" />列表显示
+            </div>
+            <div class="px-2">
+              <input v-model="g.display" type="checkbox" value="3" />表单显示
             </div>
             <div class="px-2">
               <input
-                v-model="g.relationType"
-                type="radio"
-                :name="'relationType' + gi"
-                value="1"
-              />一对一
-            </div>
-            <div class="px-2">
-              <input
-                v-model="g.relationType"
-                type="radio"
-                :name="'relationType' + gi"
-                value="2"
-              />一对多
-            </div>
-            <div class="px-2">
-              <input
-                v-model="g.relationType"
-                type="radio"
-                :name="'relationType' + gi"
+                v-model="g.cacheLastOne"
+                type="checkbox"
                 value="3"
-              />多对多
+              />最后一条
+            </div>
+            <input
+              placeholder="宽度"
+              v-model="g.width"
+              class="mx-2 px-2 border hover:border-gray-400 rounded"
+            />
+            <div class="px-2">
+              <input v-model="g.combine" type="checkbox" value="3" />合并
+            </div>
+            <div class="px-2">
+              <input v-model="g.role" type="checkbox" value="admin" />管理员
             </div>
           </div>
         </div>
@@ -146,6 +146,11 @@
             />
             <input
               v-model="c.comment"
+              class="mx-2 px-2 border hover:border-gray-400 rounded"
+            />
+            <input
+              placeholder="宽度"
+              v-model="c.width"
               class="mx-2 px-2 border hover:border-gray-400 rounded"
             />
             <div class="px-2">
@@ -202,26 +207,72 @@
       </div>
     </div>
 
-    <!-- <div class="flex border-l-2 border-gray-200" style="width: 100vw">
-      <div v-for="l in g.columns" :key="l">
-        <div class="px-2 border border-gray-400 flex" v-if="l.listDisplay">
-          <div>{{ l.listName }}</div>
-          <div class="flex" v-if="l.sortDisplay">
-            <ArrowUpIcon class="w-2"></ArrowUpIcon>
-            <ArrowDownIcon class="w-2"></ArrowDownIcon>
-          </div>
+    <div class="flex border-l-2 border-gray-200 flex-col" style="width: 100vw">
+      <div class="flex header">
+        <div v-for="g in table.group" :key="g" class="flex">
+          <template
+            v-if="g.relationType == 0 && g.listDisplay"
+            :style="{
+              width: g.width,
+            }"
+          >
+            <template v-if="g.combine">
+              <div class="px-2 border border-gray-400 flex">
+                {{ g.displayName }}
+              </div>
+            </template>
+            <template v-if="!g.combine">
+              <template v-for="l in g.columns" :key="l">
+                <div
+                  class="px-2 border border-gray-400 flex"
+                  v-if="l.listDisplay"
+                  :style="{
+                    width: l.width,
+                  }"
+                >
+                  <div>{{ l.listName }}</div>
+                  <div class="flex" v-if="l.sortDisplay">
+                    <ArrowUpIcon class="w-2"></ArrowUpIcon>
+                    <ArrowDownIcon class="w-2"></ArrowDownIcon>
+                  </div>
+                </div>
+              </template>
+            </template>
+          </template>
+        </div>
+      </div>
+      <div class="flex content">
+        <div v-for="g in table.group" :key="g" class="flex">
+          <template
+            v-if="g.relationType == 0 && g.listDisplay"
+            :style="{
+              width: g.width,
+            }"
+          >
+            <template v-if="g.combine">
+              <div class="px-2 border border-gray-400 flex">
+                {{ g.displayName }}
+              </div>
+            </template>
+            <template v-if="!g.combine">
+              <template v-for="l in g.columns" :key="l">
+                <div
+                  class="px-2 border border-gray-400 flex"
+                  v-if="l.listDisplay"
+                  :style="{
+                    width: l.width,
+                  }"
+                >
+                  <component
+                    v-bind:is="renderType[l.listRenderType].render || 'Text'"
+                  ></component>
+                </div>
+              </template>
+            </template>
+          </template>
         </div>
       </div>
     </div>
-    <div class="flex border-l-2 border-gray-200">
-      <div v-for="l in g.columns" :key="l">
-        <div class="px-2 border border-gray-400 flex" v-if="l.detailDisplay">
-          <div>{{ l.listName }}</div>
-          <div class="flex" v-if="l.required">(必填)</div>
-          <div>{{ l.renderType }}</div>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -238,6 +289,17 @@ import {
   CheckIcon,
 } from "@heroicons/vue/solid";
 
+import Text from "./render/Text.vue";
+import Avatar from "./render/Avatar.vue";
+import Button from "./render/Button.vue";
+import Customize from "./render/Customize.vue";
+import Date from "./render/Date.vue";
+import Image from "./render/Image.vue";
+import Link from "./render/Link.vue";
+import None from "./render/None.vue";
+import Number from "./render/Number.vue";
+import Switch from "./render/Switch.vue";
+
 export default {
   name: "Table",
   components: {
@@ -250,6 +312,16 @@ export default {
     FolderIcon,
     FolderOpenIcon,
     CheckIcon,
+    Text,
+    Avatar,
+    Button,
+    Customize,
+    Date,
+    Image,
+    Link,
+    None,
+    Number,
+    Switch,
   },
   methods: {
     generateCode() {
@@ -332,9 +404,51 @@ export default {
   },
   data() {
     return {
+      renderType: [
+        {
+          name: "none",
+          render: "None",
+        },
+        {
+          name: "text",
+          render: "Text",
+        },
+        {
+          name: "number",
+          render: "Number",
+        },
+        {
+          name: "image",
+          render: "Image",
+        },
+        {
+          name: "avatar",
+          render: "Avatar",
+        },
+        {
+          name: "date",
+          render: "Date",
+        },
+        {
+          name: "link",
+          render: "Link",
+        },
+        {
+          name: "switch",
+          render: "Switch",
+        },
+        {
+          name: "button",
+          render: "Button",
+        },
+        {
+          name: "customize",
+          render: "Customize",
+        },
+      ],
       urlprefix: "/v1",
-      moduleName: "test",
-      moduleDisplayName: "模块显示名称",
+      moduleName: "user",
+      moduleDisplayName: "用户基本信息",
       columnsDef: [
         {
           name: "action",
@@ -362,26 +476,21 @@ export default {
           name: "vue",
         },
       ],
-      renderType: [
+      relationType: [
         {
-          name: "none",
+          name: "主表",
         },
         {
-          name: "text",
+          name: "一对一",
         },
         {
-          name: "number",
+          name: "一对多",
         },
         {
-          name: "image",
-        },
-        {
-          name: "avatar",
-        },
-        {
-          name: "date",
+          name: "多对多",
         },
       ],
+
       table: {
         group: [
           {
@@ -390,6 +499,8 @@ export default {
             comment: "基础信息",
             primaryTable: "主表",
             relationType: 0,
+            listDisplay: true,
+            width: "500px",
             columns: [
               {
                 name: "id",
@@ -400,6 +511,7 @@ export default {
                 listDisplay: true,
                 listRenderType: 1,
                 detailRenderType: 1,
+                width: "auto",
               },
               {
                 name: "name",
@@ -411,6 +523,7 @@ export default {
                 required: true,
                 listRenderType: 1,
                 detailRenderType: 1,
+                width: "auto",
               },
               {
                 name: "avatar",
@@ -421,6 +534,18 @@ export default {
                 detailDisplay: true,
                 listRenderType: 1,
                 detailRenderType: 1,
+                width: "auto",
+              },
+              {
+                name: "gender",
+                comment: "性别",
+                listDisplay: true,
+                listName: "性别",
+                listRenderType: 3,
+                detailDisplay: true,
+                listRenderType: 1,
+                detailRenderType: 1,
+                width: "auto",
               },
               {
                 name: "first_name",
@@ -429,6 +554,7 @@ export default {
                 comment: "第一名称",
                 listRenderType: 1,
                 detailRenderType: 1,
+                width: "auto",
               },
               {
                 name: "last_name",
@@ -437,6 +563,7 @@ export default {
                 comment: "最后名称",
                 listRenderType: 1,
                 detailRenderType: 1,
+                width: "auto",
               },
               {
                 name: "full_name",
@@ -448,6 +575,7 @@ export default {
                 databaseSource: "first_name+last_name",
                 listRenderType: 1,
                 detailRenderType: 1,
+                width: "auto",
               },
 
               {
@@ -459,6 +587,7 @@ export default {
                 databaseDisplay: true,
                 listRenderType: 1,
                 detailRenderType: 1,
+                width: "auto",
               },
               {
                 name: "create_at",
@@ -467,6 +596,7 @@ export default {
                 sortDisplay: true,
                 listRenderType: 5,
                 detailRenderType: 5,
+                width: "auto",
               },
             ],
           },
@@ -475,6 +605,7 @@ export default {
             comment: "扩展信息",
             relationType: 0,
             displayName: "extra",
+            width: "100px",
             columns: [
               {
                 name: "id",
@@ -485,12 +616,14 @@ export default {
                 listDisplay: true,
                 listRenderType: 1,
                 detailRenderType: 1,
+                width: "auto",
               },
               {
                 detailDisplay: true,
                 name: "description",
                 listName: "详细描述 ",
                 comment: "备注信息",
+                width: "auto",
               },
             ],
           },
@@ -499,6 +632,7 @@ export default {
             comment: "登录日志",
             relationType: 0,
             displayName: "login_history",
+            width: "100px",
             columns: [
               {
                 name: "id",
@@ -509,6 +643,7 @@ export default {
                 listDisplay: true,
                 listRenderType: 1,
                 detailRenderType: 1,
+                width: "auto",
               },
               {
                 detailDisplay: true,
@@ -519,6 +654,7 @@ export default {
                 detailRenderType: 1,
                 listDisplay: true,
                 searchDisplay: true,
+                width: "auto",
               },
               {
                 detailDisplay: true,
@@ -529,6 +665,7 @@ export default {
                 listDisplay: true,
                 listRenderType: 5,
                 detailRenderType: 5,
+                width: "auto",
               },
             ],
           },
@@ -537,6 +674,7 @@ export default {
             comment: "登录日志",
             relationType: 0,
             displayName: "ops_history",
+            width: "100px",
             columns: [
               {
                 name: "id",
@@ -547,6 +685,7 @@ export default {
                 listDisplay: true,
                 listRenderType: 1,
                 detailRenderType: 1,
+                width: "auto",
               },
               {
                 detailDisplay: true,
@@ -557,6 +696,7 @@ export default {
                 detailRenderType: 1,
                 listDisplay: true,
                 searchDisplay: true,
+                width: "auto",
               },
               {
                 detailDisplay: true,
@@ -567,6 +707,7 @@ export default {
                 detailRenderType: 1,
                 listDisplay: true,
                 searchDisplay: true,
+                width: "auto",
               },
               {
                 detailDisplay: true,
@@ -577,6 +718,38 @@ export default {
                 listDisplay: true,
                 listRenderType: 5,
                 detailRenderType: 5,
+                width: "auto",
+              },
+            ],
+          },
+          {
+            name: "action",
+            comment: "操作",
+            relationType: 0,
+            displayName: "操作",
+            listDisplay: true,
+            combine: true,
+            width: "100px",
+            columns: [
+              {
+                detailDisplay: true,
+                name: "delete",
+                listName: "删除",
+                comment: "删除",
+                listRenderType: 1,
+                detailRenderType: false,
+                listDisplay: true,
+                width: "auto",
+              },
+              {
+                detailDisplay: true,
+                name: "detail",
+                listName: "详情",
+                comment: "详情",
+                listRenderType: 1,
+                detailRenderType: false,
+                listDisplay: true,
+                width: "auto",
               },
             ],
           },
