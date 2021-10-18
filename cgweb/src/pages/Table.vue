@@ -217,7 +217,12 @@
             }"
           >
             <template v-if="g.combine">
-              <div class="px-2 border border-gray-400 flex">
+              <div
+                class="px-2 border border-gray-400 flex"
+                :style="{
+                  width: g.width,
+                }"
+              >
                 {{ g.displayName }}
               </div>
             </template>
@@ -251,7 +256,22 @@
           >
             <template v-if="g.combine">
               <div class="px-2 border border-gray-400 flex">
-                {{ g.displayName }}
+                <template v-for="l in g.columns" :key="l">
+                  <div>
+                    <div
+                      v-if="l.listDisplay"
+                      :style="{
+                        width: l.width,
+                      }"
+                    >
+                      <component
+                        v-bind:is="
+                          renderType[l.listRenderType].render || 'Text'
+                        "
+                      ></component>
+                    </div>
+                  </div>
+                </template>
               </div>
             </template>
             <template v-if="!g.combine">
