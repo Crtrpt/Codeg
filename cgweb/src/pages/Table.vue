@@ -207,92 +207,98 @@
       </div>
     </div>
 
-    <div class="flex border-l-2 border-gray-200 flex-col" style="width: 100vw">
-      <div class="flex header">
-        <div v-for="g in table.group" :key="g" class="flex">
-          <template
-            v-if="g.relationType == 0 && g.listDisplay"
-            :style="{
-              width: g.width,
-            }"
-          >
-            <template v-if="g.combine">
-              <div
-                class="px-2 border border-gray-400 flex"
-                :style="{
-                  width: g.width,
-                }"
-              >
-                {{ g.displayName }}
-              </div>
-            </template>
-            <template v-if="!g.combine">
-              <template v-for="l in g.columns" :key="l">
-                <div
-                  class="px-2 border border-gray-400 flex"
-                  v-if="l.listDisplay"
+    <table>
+      <thead>
+        <tr>
+          <template v-for="g in table.group" :key="g">
+            <template
+              v-if="g.relationType == 0 && g.listDisplay"
+              :style="{
+                width: g.width,
+              }"
+            >
+              <template v-if="g.combine">
+                <th
+                  class=""
                   :style="{
-                    width: l.width,
+                    width: g.width,
                   }"
                 >
-                  <div>{{ l.listName }}</div>
-                  <div class="flex" v-if="l.sortDisplay">
-                    <ArrowUpIcon class="w-2"></ArrowUpIcon>
-                    <ArrowDownIcon class="w-2"></ArrowDownIcon>
-                  </div>
-                </div>
+                  {{ g.displayName }}
+                </th>
               </template>
-            </template>
-          </template>
-        </div>
-      </div>
-      <div class="flex content">
-        <div v-for="g in table.group" :key="g" class="flex">
-          <template
-            v-if="g.relationType == 0 && g.listDisplay"
-            :style="{
-              width: g.width,
-            }"
-          >
-            <template v-if="g.combine">
-              <div class="px-2 border border-gray-400 flex">
+              <template v-if="!g.combine">
                 <template v-for="l in g.columns" :key="l">
-                  <div>
-                    <div
-                      v-if="l.listDisplay"
-                      :style="{
-                        width: l.width,
-                      }"
-                    >
-                      <component
-                        v-bind:is="
-                          renderType[l.listRenderType].render || 'Text'
-                        "
-                      ></component>
+                  <th
+                    class=""
+                    v-if="l.listDisplay"
+                    :style="{
+                      width: l.width,
+                    }"
+                  >
+                    <div>{{ l.listName }}</div>
+                    <div class="flex" v-if="l.sortDisplay">
+                      <ArrowUpIcon class="w-2"></ArrowUpIcon>
+                      <ArrowDownIcon class="w-2"></ArrowDownIcon>
                     </div>
-                  </div>
+                  </th>
                 </template>
-              </div>
-            </template>
-            <template v-if="!g.combine">
-              <template v-for="l in g.columns" :key="l">
-                <div
-                  class="px-2 border border-gray-400 flex"
-                  v-if="l.listDisplay"
-                  :style="{
-                    width: l.width,
-                  }"
-                >
-                  <component
-                    v-bind:is="renderType[l.listRenderType].render || 'Text'"
-                  ></component>
-                </div>
               </template>
             </template>
           </template>
-        </div>
-      </div>
-    </div>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <template v-for="g in table.group" :key="g" class="flex">
+            <template
+              v-if="g.relationType == 0 && g.listDisplay"
+              :style="{
+                width: g.width,
+              }"
+            >
+              <template v-if="g.combine">
+                <td class="">
+                  <div class="flex">
+                    <template v-for="l in g.columns" :key="l">
+                      <div>
+                        <div
+                          v-if="l.listDisplay"
+                          :style="{
+                            width: l.width,
+                          }"
+                        >
+                          <component
+                            v-bind:is="
+                              renderType[l.listRenderType].render || 'Text'
+                            "
+                          ></component>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </td>
+              </template>
+              <template v-if="!g.combine">
+                <template v-for="l in g.columns" :key="l">
+                  <td
+                    class=""
+                    v-if="l.listDisplay"
+                    :style="{
+                      width: l.width,
+                    }"
+                  >
+                    <component
+                      v-bind:is="renderType[l.listRenderType].render || 'Text'"
+                    ></component>
+                  </td>
+                </template>
+              </template>
+            </template>
+          </template>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -309,16 +315,18 @@ import {
   CheckIcon,
 } from "@heroicons/vue/solid";
 
-import Text from "./render/Text.vue";
-import Avatar from "./render/Avatar.vue";
-import Button from "./render/Button.vue";
-import Customize from "./render/Customize.vue";
-import Date from "./render/Date.vue";
-import Image from "./render/Image.vue";
-import Link from "./render/Link.vue";
-import None from "./render/None.vue";
-import Number from "./render/Number.vue";
-import Switch from "./render/Switch.vue";
+import {
+  Text,
+  Avatar,
+  Button,
+  Customize,
+  Date,
+  Image,
+  Link,
+  None,
+  Number,
+  Switch,
+} from "./render/index.js";
 
 export default {
   name: "Table",
@@ -756,6 +764,16 @@ export default {
                 name: "delete",
                 listName: "删除",
                 comment: "删除",
+                listRenderType: 1,
+                detailRenderType: false,
+                listDisplay: true,
+                width: "auto",
+              },
+              {
+                detailDisplay: true,
+                name: "ban",
+                listName: "禁用",
+                comment: "禁用",
                 listRenderType: 1,
                 detailRenderType: false,
                 listDisplay: true,
