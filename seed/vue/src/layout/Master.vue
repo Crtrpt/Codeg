@@ -41,37 +41,43 @@
             <template #title>
               <span>
                 <user-outlined />
-                <span>nav 1</span>
+                <span>用户管理</span>
               </span>
             </template>
-            <a-menu-item key="1">option1</a-menu-item>
-            <a-menu-item key="2">option2</a-menu-item>
-            <a-menu-item key="3">option3</a-menu-item>
-            <a-menu-item key="4">option4</a-menu-item>
+            <a-menu-item key="1">用户列表</a-menu-item>
+            <a-menu-item key="1-1">会员列表</a-menu-item>
+            <a-menu-item key="2">用户分析</a-menu-item>
+            <a-menu-item key="3">用户设置</a-menu-item>
+            <a-menu-item key="5-1">用户操作日志</a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="sub2">
             <template #title>
               <span>
                 <laptop-outlined />
-                <span>nav 2</span>
+                <span>系统设置</span>
               </span>
             </template>
-            <a-menu-item key="5">option5</a-menu-item>
-            <a-menu-item key="6">option6</a-menu-item>
-            <a-menu-item key="7">option7</a-menu-item>
-            <a-menu-item key="8">option8</a-menu-item>
+            <a-menu-item key="5">会员管理</a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="sub3">
             <template #title>
               <span>
                 <notification-outlined />
-                <span>nav 3</span>
+                <span>权限管理</span>
               </span>
             </template>
-            <a-menu-item key="9">option9</a-menu-item>
-            <a-menu-item key="10">option10</a-menu-item>
-            <a-menu-item key="11">option11</a-menu-item>
-            <a-menu-item key="12">option12</a-menu-item>
+            <a-menu-item key="9">角色管理</a-menu-item>
+            <a-menu-item key="10">权限管理</a-menu-item>
+          </a-sub-menu>
+          <a-sub-menu key="sub4">
+            <template #title>
+              <span>
+                <notification-outlined />
+                <span>组织管理</span>
+              </span>
+            </template>
+            <a-menu-item key="9-1">组织管理</a-menu-item>
+            <a-menu-item key="9-2">部门管理</a-menu-item>
           </a-sub-menu>
         </a-menu>
       </a-layout-sider>
