@@ -12,7 +12,6 @@ import ${package_name}.${module_name}.form.${filename}Dto;
 import ${package_name}.${module_name}.form.${filename}Form;
 import ${package_name}.${module_name}.form.${filename}ListDto;
 import ${package_name}.${module_name}.form.${filename}Query;
-import ${package_name}.${module_name}.service.${filename}Service;
 import ${package_name}.${module_name}.entity.${filename}Entity;
 
 import java.util.ArrayList;

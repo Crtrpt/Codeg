@@ -1,9 +1,9 @@
 <template>
-  <div>Cgtest</div>
+  <div>${filename}</div>
 </template>
 
 <script>
 export default {
-  name: "Cgtest",
+  name: "${filename}",
 };
 </script>

@@ -1,7 +1,38 @@
 <template>
   <div class="h-full">
     <div class="flex flex-col px-2 mt-2">
-      <div class="px-1">
+      <div class="p-1  flex">
+          <div class="p-1">
+              <select v-model="datasource">
+                <option v-for="(d, i) in datasourceType" :key="d" :value="i">
+                  {{ d.name }}
+                </option>
+              </select>
+          </div>
+          <div v-if="datasource==1">
+             <input
+              placeholder="数据来源sql"
+              v-model="datasourceMeta.sql"
+              class="px-2 mx-2 border hover:border-gray-400 rounded"
+            />
+          </div>
+
+          <div v-if="datasource==1">
+             <input
+              placeholder="名称空间"
+              v-model="packageName"
+              class="px-2 mx-2 border hover:border-gray-400 rounded"
+            />
+          </div>
+
+          <input
+            placeholder="请求前缀"
+            v-model="urlprefix"
+            class="px-2 mx-2 border hover:border-gray-400 rounded"
+          />
+      </div>
+      <div class="px-1 flex">
+       
         <input
           placeholder="模块名称"
           v-model="moduleDisplayName"
@@ -12,11 +43,7 @@
           v-model="moduleName"
           class="px-2 mx-2 border hover:border-gray-400 rounded"
         />
-        <input
-          placeholder="请求前缀"
-          v-model="urlprefix"
-          class="px-2 mx-2 border hover:border-gray-400 rounded"
-        />
+      
       </div>
 
       <div class="px-1 flex">
@@ -176,6 +203,9 @@
             <div class="">
               <input v-model="c.detailDisplay" type="checkbox" />详情
             </div>
+             <div class="">
+              <input v-model="c.batchOps" type="checkbox" />批量操作
+            </div>
             <div class="px-1">
               <select v-model="c.detailRenderType">
                 <option v-for="(d, i) in renderType" :key="d" :value="i">
@@ -328,6 +358,9 @@ import {
   Switch,
 } from "./render/index.js";
 
+
+import data from "../data.js"
+
 export default {
   name: "Table",
   components: {
@@ -431,369 +464,7 @@ export default {
     },
   },
   data() {
-    return {
-      renderType: [
-        {
-          name: "none",
-          render: "None",
-        },
-        {
-          name: "text",
-          render: "Text",
-        },
-        {
-          name: "number",
-          render: "Number",
-        },
-        {
-          name: "image",
-          render: "Image",
-        },
-        {
-          name: "avatar",
-          render: "Avatar",
-        },
-        {
-          name: "date",
-          render: "Date",
-        },
-        {
-          name: "link",
-          render: "Link",
-        },
-        {
-          name: "switch",
-          render: "Switch",
-        },
-        {
-          name: "button",
-          render: "Button",
-        },
-        {
-          name: "customize",
-          render: "Customize",
-        },
-      ],
-      urlprefix: "/v1",
-      moduleName: "user",
-      moduleDisplayName: "用户基本信息",
-      columnsDef: [
-        {
-          name: "action",
-          ref: "操作",
-          style: {
-            width: "200px",
-          },
-        },
-        {
-          name: "名称",
-          ref: "name",
-        },
-
-        {
-          name: "描述",
-          ref: "comment",
-        },
-      ],
-      target: "",
-      targetList: [
-        {
-          name: "springboot",
-        },
-        {
-          name: "vue",
-        },
-      ],
-      relationType: [
-        {
-          name: "主表",
-        },
-        {
-          name: "一对一",
-        },
-        {
-          name: "一对多",
-        },
-        {
-          name: "多对多",
-        },
-      ],
-
-      table: {
-        group: [
-          {
-            name: "基础信息",
-            displayName: "base",
-            comment: "基础信息",
-            primaryTable: "主表",
-            relationType: 0,
-            listDisplay: true,
-            width: "500px",
-            columns: [
-              {
-                name: "id",
-                automaticGenerated: true,
-                primaryKey: true,
-                comment: "自增id",
-                listName: "序号",
-                listDisplay: true,
-                listRenderType: 1,
-                detailRenderType: 1,
-                width: "auto",
-              },
-              {
-                name: "name",
-                comment: "名称",
-                listName: "名称",
-                listDisplay: true,
-                detailDisplay: true,
-                searchDisplay: true,
-                required: true,
-                listRenderType: 1,
-                detailRenderType: 1,
-                width: "auto",
-              },
-              {
-                name: "avatar",
-                comment: "头像",
-                listDisplay: true,
-                listName: "头像",
-                listRenderType: 3,
-                detailDisplay: true,
-                listRenderType: 1,
-                detailRenderType: 1,
-                width: "auto",
-              },
-              {
-                name: "gender",
-                comment: "性别",
-                listDisplay: true,
-                listName: "性别",
-                listRenderType: 3,
-                detailDisplay: true,
-                listRenderType: 1,
-                detailRenderType: 1,
-                width: "auto",
-              },
-              {
-                name: "first_name",
-                listName: "first_name",
-                detailDisplay: true,
-                comment: "第一名称",
-                listRenderType: 1,
-                detailRenderType: 1,
-                width: "auto",
-              },
-              {
-                name: "last_name",
-                listName: "last_name",
-                detailDisplay: true,
-                comment: "最后名称",
-                listRenderType: 1,
-                detailRenderType: 1,
-                width: "auto",
-              },
-              {
-                name: "full_name",
-                comment: "全名称",
-                listDisplay: true,
-                listName: "全名",
-                detailDisplay: false,
-                databaseDisplay: true,
-                databaseSource: "first_name+last_name",
-                listRenderType: 1,
-                detailRenderType: 1,
-                width: "auto",
-              },
-
-              {
-                name: "phone",
-                comment: "手机号",
-                listDisplay: true,
-                listName: "手机号",
-                detailDisplay: true,
-                databaseDisplay: true,
-                listRenderType: 1,
-                detailRenderType: 1,
-                width: "auto",
-              },
-              {
-                name: "create_at",
-                listName: "创建时间",
-                comment: "创建时间",
-                sortDisplay: true,
-                listRenderType: 5,
-                detailRenderType: 5,
-                width: "auto",
-              },
-            ],
-          },
-          {
-            name: "扩展信息",
-            comment: "扩展信息",
-            relationType: 0,
-            displayName: "extra",
-            width: "100px",
-            columns: [
-              {
-                name: "id",
-                automaticGenerated: true,
-                primaryKey: true,
-                comment: "自增id",
-                listName: "序号",
-                listDisplay: true,
-                listRenderType: 1,
-                detailRenderType: 1,
-                width: "auto",
-              },
-              {
-                detailDisplay: true,
-                name: "description",
-                listName: "详细描述 ",
-                comment: "备注信息",
-                width: "auto",
-              },
-            ],
-          },
-          {
-            name: "登录日志",
-            comment: "登录日志",
-            relationType: 0,
-            displayName: "login_history",
-            width: "100px",
-            columns: [
-              {
-                name: "id",
-                automaticGenerated: true,
-                primaryKey: true,
-                comment: "自增id",
-                listName: "序号",
-                listDisplay: true,
-                listRenderType: 1,
-                detailRenderType: 1,
-                width: "auto",
-              },
-              {
-                detailDisplay: true,
-                name: "ip",
-                listName: "ip地址 ",
-                comment: "IP地址",
-                listRenderType: 1,
-                detailRenderType: 1,
-                listDisplay: true,
-                searchDisplay: true,
-                width: "auto",
-              },
-              {
-                detailDisplay: true,
-                searchDisplay: true,
-                name: "create_at",
-                listName: "登录日期 ",
-                comment: "登录日期",
-                listDisplay: true,
-                listRenderType: 5,
-                detailRenderType: 5,
-                width: "auto",
-              },
-            ],
-          },
-          {
-            name: "操作日志",
-            comment: "登录日志",
-            relationType: 0,
-            displayName: "ops_history",
-            width: "100px",
-            columns: [
-              {
-                name: "id",
-                automaticGenerated: true,
-                primaryKey: true,
-                comment: "自增id",
-                listName: "序号",
-                listDisplay: true,
-                listRenderType: 1,
-                detailRenderType: 1,
-                width: "auto",
-              },
-              {
-                detailDisplay: true,
-                name: "ip",
-                listName: "ip地址 ",
-                comment: "IP地址",
-                listRenderType: 1,
-                detailRenderType: 1,
-                listDisplay: true,
-                searchDisplay: true,
-                width: "auto",
-              },
-              {
-                detailDisplay: true,
-                name: "ops_content",
-                listName: "操作内容 ",
-                comment: "操作内容",
-                listRenderType: 1,
-                detailRenderType: 1,
-                listDisplay: true,
-                searchDisplay: true,
-                width: "auto",
-              },
-              {
-                detailDisplay: true,
-                searchDisplay: true,
-                name: "create_at",
-                listName: "登录日期 ",
-                comment: "登录日期",
-                listDisplay: true,
-                listRenderType: 5,
-                detailRenderType: 5,
-                width: "auto",
-              },
-            ],
-          },
-          {
-            name: "action",
-            comment: "操作",
-            relationType: 0,
-            displayName: "操作",
-            listDisplay: true,
-            combine: true,
-            width: "100px",
-            columns: [
-              {
-                detailDisplay: true,
-                name: "delete",
-                listName: "删除",
-                comment: "删除",
-                listRenderType: 1,
-                detailRenderType: false,
-                listDisplay: true,
-                width: "auto",
-              },
-              {
-                detailDisplay: true,
-                name: "ban",
-                listName: "禁用",
-                comment: "禁用",
-                listRenderType: 1,
-                detailRenderType: false,
-                listDisplay: true,
-                width: "auto",
-              },
-              {
-                detailDisplay: true,
-                name: "detail",
-                listName: "详情",
-                comment: "详情",
-                listRenderType: 1,
-                detailRenderType: false,
-                listDisplay: true,
-                width: "auto",
-              },
-            ],
-          },
-        ],
-      },
-    };
+    return data
   },
 };
 </script>

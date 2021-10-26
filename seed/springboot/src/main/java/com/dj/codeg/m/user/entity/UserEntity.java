@@ -1,4 +1,4 @@
-package com.dj.codeg.m.cgtest.entity;
+package com.dj.codeg.m.user.entity;
 
 import com.dj.codeg.system.BaseEntity;
 import com.dj.codeg.system.utils.ResultDto;
@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@SQLDelete(sql = "update `cgtest` SET deleted_at =  unix_timestamp(now()) WHERE id = ?")
+@SQLDelete(sql = "update `user` SET deleted_at =  unix_timestamp(now()) WHERE id = ?")
 @Entity
-@Table(name = "cgtest")
+@Table(name = "user")
 @Where(clause = "deleted_at is null")
 @DynamicUpdate
 @Cacheable
-@ApiModel(value="测试模块", description="测试模块")
-public class CgtestEntity extends BaseEntity implements Serializable {
+@ApiModel(value="用户信息", description="用户信息")
+public class UserEntity extends BaseEntity implements Serializable {
     @Id
     String id;
 

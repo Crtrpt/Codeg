@@ -1,28 +1,19 @@
 var path = require('path');
 var fs = require('fs');
 var ejs = require('ejs');
+var data=require("./data.js")
 
-opts = {
-    "module_name": "cgtest",
-    "filename": "Cgtest",
-    "name": "cgtest",
-    "display_name": "测试模块",
-    "package_name": "com.dj.codeg.m",
-    "package_path": "com/dj/codeg/m",
-    "entity":"test.entity",
-    "system_package":"com.dj.codeg",
-    "request_path_prefix":"/"
-}
+
 
 basedirs =   [
      {
     "source":"./seed/springboot/cg",
     "target":"./seed/springboot/src/main/java"
     },
-    {
-    "source":"./seed/vue/cg",
-    "target":"./seed/vue/src/m",
-    }
+    // {
+    // "source":"./seed/vue/cg",
+    // "target":"./seed/vue/src/m",
+    // }
 ]
 
 var cg=(basedir, distdir, param)=>{
@@ -51,8 +42,6 @@ var cg=(basedir, distdir, param)=>{
                         })
                     }
                   
-
-
                     var file=`${basedir}/${file}`;
               
                     fs.readFile(file, 'utf8', function(err, data){
@@ -73,28 +62,18 @@ var cg=(basedir, distdir, param)=>{
             })
         }
     });
-    // for entry in os.scandir(basedir):
-    //     if entry.is_dir():
-    //         cg(basedir + "/" + entry.name, distdir + "/" + entry.name,param);
-    //     else:
-    //         path_template = Template(distdir)
-    //         pathname = path_template.substitute(param)
-    //         os.makedirs(pathname,exist_ok=True);
-    //         filename_template = Template(distdir + "/" + entry.name)
-    //         filename = filename_template.substitute(param)
-    //         #print("filename"+filename);
-    //         f = open(basedir + "./" + entry.name, encoding='utf8')
-    //         file_template = Template(f.read())
-    //         filecontent = file_template.substitute(param)
-    //         print("create:" + filename);
-    //         # print(filecontent);
-    //         distfile = open(filename, "w", encoding='utf8')
-    //         distfile.write(filecontent)
-    //         distfile.close()
 }
 
+data.package_path=data.packageName.replace(/\./g,"/")
+data.package_name=data.packageName
+data.module_name=data.moduleName
+data.filename=data.moduleName[0].toUpperCase() + data.moduleName.slice(1);
+data.system_package="com.dj.codeg"
+data.display_name=data.moduleDisplayName,
+data.request_path_prefix=data.urlprefix,
+data.name=data.moduleName,
 basedirs.forEach(e => {
     console.log(e.target);
-    cg(e.source,e.target,opts);
+    cg(e.source,e.target,data);
 });
 

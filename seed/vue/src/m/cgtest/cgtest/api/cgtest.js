@@ -1,9 +1,12 @@
-<template>
-  <div>Cgtest</div>
-</template>
+import {request} from './request.js'
 
-<script>
-export default {
-  name: "Cgtest",
+const cgtest={
+    list:(ctx)=>{
+        return request.get("cgtest/list",ctx)
+    },
 };
-</script>
+
+export {
+  cgtest
+}
+
