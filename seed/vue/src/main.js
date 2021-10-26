@@ -17,6 +17,7 @@ const router = createRouter({
     history: createWebHashHistory(),
     routes: route,
 });
+
 const app = createApp(App);
 app.config.productionTip = false;
 app.use(Antd);
