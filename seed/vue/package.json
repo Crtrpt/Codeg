@@ -1,5 +1,5 @@
 {
-  "name": "Codeg",
+  "name": "codeg",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
@@ -7,7 +7,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@heroicons/vue": "^1.0.4",
+    "ant-design-vue": "^2.2.8",
     "d3": "^7.0.4",
     "lodash": "^4.17.21",
     "vue": "^3.2.13",
@@ -19,7 +19,6 @@
     "@vitejs/plugin-vue": "^1.9.0",
     "autoprefixer": "^10.3.6",
     "postcss": "^8.3.8",
-    "tailwindcss": "^2.2.16",
     "vite": "^2.5.10"
   }
 }

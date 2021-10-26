@@ -6,10 +6,7 @@ export default {
   name: "Master",
   setup() {
     console.log("App 初始化");
-  },
-  render() {
-    return " <router-view></router-view>";
-  },
+  }
 };
 </script>
 <style></style>
