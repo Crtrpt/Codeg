@@ -6,7 +6,7 @@ export default {
   name: "Master",
   setup() {
     console.log("App 初始化");
-  }
+  },
 };
 </script>
 <style></style>

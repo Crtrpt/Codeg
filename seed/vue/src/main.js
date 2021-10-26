@@ -13,6 +13,8 @@ import route from "./route/index.js";
 
 import store from "./store/index.js";
 
+import { Button, message,Row,Col } from 'ant-design-vue';
+
 const router = createRouter({
     history: createWebHashHistory(),
     routes: route,
@@ -21,6 +23,7 @@ const router = createRouter({
 const app = createApp(App);
 app.config.productionTip = true;
 app.use(Antd);
+app.use(Button,message, Row, Col)
 app.use(router);
 app.use(store);
 app.mount('#app')

@@ -1,154 +1,66 @@
 <template>
-  <div class="flex justify-center items-center">
-    <div class="w-1/6">
-      <div class="font-black text-5xl">PMS.com</div>
-      <div class="mt-10 text-3xl">找回密码</div>
-    </div>
-    <div class="w-1/6">
-      <form class="mt-8 space-y-6 border p-4 shadow" @submit="submit($event)">
-        <input type="hidden" name="remember" value="true" />
-        <div class="rounded-md shadow-sm -space-y-px">
-          <div>
-            <label for="email-address" class="sr-only">账号</label>
-            <input
-              id="email-address"
-              name="email"
-              required=""
-              class="
-                appearance-none
-                rounded-none
-                relative
-                block
-                w-full
-                px-3
-                py-2
-                border border-gray-300
-                placeholder-gray-500
-                text-gray-900
-                rounded-t-md
-                focus:outline-none
-                focus:ring-blue-500
-                focus:border-blue-500
-                focus:z-10
-                sm:text-sm
-              "
-              placeholder="账户"
-              v-model="form.account"
-            />
-          </div>
-          <div>
-            <label for="password" class="sr-only">密码</label>
-            <input
-              v-model="form.password"
-              id="password"
-              name="password"
+  <a-row>
+    <a-col :xs="9"> </a-col>
+    <a-col :xs="6">
+      <a-card title="找回密码" style="margin-top: 30%">
+        <template #extra><a @click="goLogin">返回?去登录</a></template>
+        <a-form :model="form" class="login_form">
+          <a-form-item>
+            <a-input-group compact>
+              <a-input
+                v-model:value="form.desc"
+                type="password"
+                placeholder="输入注册手机号"
+                size="large"
+              >
+                <template #addonAfter>
+                  <a-button type="primary" @click="submit">发送验证码</a-button>
+                </template></a-input
+              >
+            </a-input-group>
+          </a-form-item>
+
+          <a-form-item>
+            <a-input
+              v-model:value="form.desc"
               type="password"
-              autocomplete="current-password"
-              required=""
-              class="
-                appearance-none
-                rounded-none
-                relative
-                block
-                w-full
-                px-3
-                py-2
-                border border-gray-300
-                placeholder-gray-500
-                text-gray-900
-                rounded-b-md
-                focus:outline-none
-                focus:ring-blue-500
-                focus:border-blue-500
-                focus:z-10
-                sm:text-sm
-              "
-              placeholder="密码"
+              placeholder="验证码"
+              size="large"
             />
-          </div>
-        </div>
-
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <input
-              id="remember-me"
-              name="remember-me"
-              type="checkbox"
-              class="
-                h-4
-                w-4
-                text-blue-600
-                focus:ring-blue-500
-                border-gray-300
-                rounded
-              "
+          </a-form-item>
+          <a-form-item>
+            <a-input
+              v-model:value="form.desc"
+              type="password"
+              placeholder="新密码"
+              size="large"
             />
-            <label for="remember-me" class="ml-2 block text-sm text-gray-900">
-              记住我
-            </label>
-          </div>
+          </a-form-item>
+          <a-form-item>
+            <a-input
+              v-model:value="form.desc"
+              type="password"
+              placeholder="确认新密码"
+              size="large"
+            />
+          </a-form-item>
+          <a-form-item>
+            <a-checkbox value="1" name="license">我同意许可协议</a-checkbox>
+          </a-form-item>
 
-          <div class="text-sm">
-            <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
-              忘记密码
-            </a>
-          </div>
-        </div>
-
-        <div>
-          <button
-            type="submit"
-            @submit="submit($event)"
-            class="
-              group
-              relative
-              w-full
-              flex
-              justify-center
-              py-2
-              px-4
-              border border-transparent
-              text-sm
-              font-medium
-              rounded-md
-              text-white
-              bg-blue-600
-              hover:bg-blue-700
-              focus:outline-none
-              focus:ring-2
-              focus:ring-offset-2
-              focus:ring-indigo-500
-            "
-          >
-            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-              <LockClosedIcon
-                class="h-5 w-5 text-blue-500 group-hover:text-blue-400"
-                aria-hidden="true"
-              />
-            </span>
-            登录
-          </button>
-        </div>
-      </form>
-      <div class="mt-2 text-sm text-gray-400 hover:text-gray-600">
-        还没有账号?<a
-          @click="goSignup"
-          href="javascript:;"
-          class="cursor-pointer ml-2 hover:text-blue-600"
-          >去注册</a
-        >
-      </div>
-    </div>
-  </div>
+          <a-form-item>
+            <a-button type="primary" @click="submit">确认</a-button>
+          </a-form-item>
+        </a-form></a-card
+      >
+    </a-col>
+    <a-col :xs="9"> </a-col>
+  </a-row>
 </template>
 
 <script>
-import { LockClosedIcon } from "@heroicons/vue/solid";
-
 export default {
-  components: {
-    LockClosedIcon,
-  },
+  components: {},
   data() {
     return {
       form: {
@@ -158,8 +70,8 @@ export default {
     };
   },
   methods: {
-    goSignup(e) {
-      this.$router.push({ name: "signup" });
+    goLogin(e) {
+      this.$router.push({ name: "login" });
     },
     submit(e) {
       e.defaultPrevented();
@@ -170,3 +82,8 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.login_form {
+}
+</style>
