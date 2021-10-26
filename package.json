@@ -1,0 +1,23 @@
+{
+  "name": "codeg",
+  "version": "1.0.0",
+  "description": "---------",
+  "main": "index.js",
+  "scripts": {
+    "cg": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Crtrpt/codeg.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Crtrpt/codeg/issues"
+  },
+  "homepage": "https://github.com/Crtrpt/codeg#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "pug": "^3.0.2"
+  }
+}
