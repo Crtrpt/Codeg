@@ -3,8 +3,8 @@ import App from './App.vue'
 
 import Antd from 'ant-design-vue';
 
-
 import 'ant-design-vue/dist/antd.css';
+
 import './index.css'
 
 import { createRouter, createWebHashHistory } from "vue-router";
@@ -19,7 +19,7 @@ const router = createRouter({
 });
 
 const app = createApp(App);
-app.config.productionTip = false;
+app.config.productionTip = true;
 app.use(Antd);
 app.use(router);
 app.use(store);
