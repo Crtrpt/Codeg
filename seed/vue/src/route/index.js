@@ -1,3 +1,5 @@
+import user from "../m/user/user/route/index.js"
+
 var route = [
   {
     path: "/",
@@ -9,6 +11,7 @@ var route = [
         path: "/home",
         component: () => import("../layout/Home.vue"),
       },
+      ...user
     ],
   },
   {

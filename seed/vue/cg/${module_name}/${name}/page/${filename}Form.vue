@@ -1,9 +1,9 @@
 <template>
-  <div>${filename}</div>
+  <div>${filename} form</div>
 </template>
 
 <script>
 export default {
-  name: "${filename}",
+  name: "${filename}Form",
 };
 </script>
