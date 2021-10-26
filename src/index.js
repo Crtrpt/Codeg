@@ -10,10 +10,10 @@ basedirs =   [
     "source":"./seed/springboot/cg",
     "target":"./seed/springboot/src/main/java"
     },
-    // {
-    // "source":"./seed/vue/cg",
-    // "target":"./seed/vue/src/m",
-    // }
+    {
+    "source":"./seed/vue/cg",
+    "target":"./seed/vue/src/m",
+    }
 ]
 
 var cg=(basedir, distdir, param)=>{
